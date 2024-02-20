@@ -1,0 +1,20 @@
+Running: /CMC/tools/xilinx/13.4/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -o /home/student1/dsadig/Desktop/project 2_Toni/PINGPONG/vga_driver_isim_beh.exe -prj /home/student1/dsadig/Desktop/project 2_Toni/PINGPONG/vga_driver_beh.prj work.vga_driver 
+ISim O.87xd (signature 0x8ddf5b5d)
+Number of CPUs detected in this system: 8
+Turning on mult-threading, number of parallel sub-compilation jobs: 16 
+Determining compilation order of HDL files
+Parsing VHDL file "/home/student1/dsadig/Desktop/project 2_Toni/PINGPONG/vga.vhd" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 120392 KB
+Fuse CPU Usage: 790 ms
+Compiling package standard
+Compiling package std_logic_1164
+Compiling architecture behavioral of entity vga_driver
+Time Resolution for simulation is 1ps.
+Waiting for 1 sub-compilation(s) to finish...
+Compiled 3 VHDL Units
+Built simulation executable /home/student1/dsadig/Desktop/project 2_Toni/PINGPONG/vga_driver_isim_beh.exe
+Fuse Memory Usage: 1210244 KB
+Fuse CPU Usage: 820 ms
+GCC CPU Usage: 700 ms

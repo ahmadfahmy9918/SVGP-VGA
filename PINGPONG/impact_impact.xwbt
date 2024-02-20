@@ -1,0 +1,8 @@
+INTSTYLE=impact
+INFILE=/home/student1/wimalik/Documents/COE758/PINGPONG/impact.xsl
+OUTFILE=/home/student1/wimalik/Documents/COE758/PINGPONG/impact.xsl
+FAMILY=Multiple
+PART=Multiple
+WORKINGDIR=/home/student1/wimalik/Documents/COE758/PINGPONG
+LICENSE=iMPACT
+USER_INFO=iMPACT
