@@ -39,7 +39,7 @@ Table II. VGA Vertical Parameters
 | Back Porch        | 33           |
 | Active Image Area | 480          |
 
-All horizontal time periods are specified in multiples of the VGA pixel clock, set at 25 MHz for a 60 Hz refresh rate. Vertical time periods are measured in multiples of VGA lines. These specifications were sourced from the provided lab manual (reference #1).
+All horizontal time periods are specified in multiples of the VGA pixel clock, set at 25 MHz for a 60 Hz refresh rate. Vertical time periods are measured in multiples of VGA lines.
 
 ## Design
 ![Block Diagram](Images/P1.jpg)
