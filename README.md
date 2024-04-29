@@ -62,6 +62,7 @@ This diagram details the frame generation process for displaying the Pong game. 
 
 ## Results
 After successfully rendering the Pong game on the monitor, several screenshots were captured to demonstrate the game's functionality. However, static images cannot fully convey the movement of the ball or the true colors of the game elements. In these images, Player One (on the left side) is represented in blue, while Player Two (on the right) appears in pink. The ball is depicted in yellow.
+
 ![SS 1](Images/p4.jpg)
 
 Figure 4. Initial State of Pong Game
