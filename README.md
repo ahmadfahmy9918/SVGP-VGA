@@ -1,55 +1,26 @@
 # Simple Video-Game Processor for VGA
 ## Abstract
-The goal of this project was to design a Simple Video-Game Processor for Video Graphics Array (VGA) on a Xilinx Spartan-3E FPGA. The main objectives
-could be broken down as follows. First, the goal was to learn about the functionality of the
-video-output system as well as the Video Graphic Adaptor (VGA). Secondly, it was important
-to learn how to develop and incorporate the gaming logic of the pong game with the
-dynamic elements of the game. Finally, it was important to apply the knowledge of the
-signals that synchronize the video output (Hsync and Vsync), as well as the signals that
-provide what is being seen (Rout, Bout, and Gout). The Hsync and Vsync signals were set by
-using a counter. When 800 clock cycles (based on requirements in the lab manual) were
-reached, the Hsync would reset and a new line would result. When 525 lines (also based on
-requirements in the lab manual) were reached, a new frame would begin. Initially, or when
-the game is reset after a goal, the objects are set at specific places in the game. After every
-second, the ball moves at a rate of 60 pixels per second, and its horizontal and vertical
-movement is changed when it collides with elements of the game (paddle, boundary, etc.).
-This is detected when the ball reaches coordinates held by the aforementioned objects in
-the game. If the “up” or “down” switches for both paddles were on, the coordinates of the
-paddle would be changed by adding the paddle velocity. More specifically, it would move
-vertically, based on the direction chosen, at a rate of 60 pixels per second. We were able to
-successfully code a VHDL file as well as implement the VGA design. This was verified when
-our timing diagrams agreed with the expected results. The output from the game was given
-to the VGA to update RGB output signals as expected. The timing diagrams showed that the
-HSync and VSync signals produced the appropriate output. Overall, the project was
-completed successfully.
+This project focused on developing a Simple Video-Game Processor for a Video Graphics Array (VGA) on a Xilinx Spartan-3E FPGA. Objectives included understanding the VGA system's functionality, integrating pong game logic, and applying knowledge of synchronization and RGB output signals. The project outcomes were verified through successful VHDL coding and VGA design implementation, which were consistent with expected timing diagrams and RGB output.
 
 ## Introduction 
-The goal of the project was to create a pong game which is controlled using switches. To
-clearly understand how to do such a task one must understand what is required to undergo
-it. The project’s overall purpose was to generate video output with the use of
-synchronizations signals, output signals, and game logic that creates ball movement, paddle
-movement, and detects collisions. Also, to show how the interface interaction is possible
-using the software. In this project, the paddles were used to move both up and down using
-the switches. Since there are multiple switches, the ones used on either end were selected
-as the controls for the paddles. The display of the pong field was a set field which uses the
-pixel settings with signals for the Hsync and Vsync for the placement of the pixels. The pixels
-change due to the various objects in motion, so the pixels that output these objects, change
-every second. The object’s coordinates are used to replace the current pixel value and set it
-as the colour associated with the object. The parts of the field use a colour scheme that use
-a mix of red, green, and blue signals to represent desired colours for the ball, paddles,
-background, etc. The movement throughout the pong field, as well as any changes that
-occur when actions take place, is programmed using VHDL.
+The objective was to engineer a pong game controlled through hardware switches, necessitating a comprehensive understanding of video output generation, synchronization signals, and real-time game mechanics. This project aimed to facilitate interface interactions via hardware and VHDL programming. The pong game display utilized pixel-specific synchronization signals for object motion representation, updating pixel values and colors based on game dynamics. The implementation involved coding in VHDL to manage game elements such as ball and paddle movements and collision detection. Key gameplay mechanics included ball movement at 60 pixels per second and paddle movement controlled via switches, which were vertically adjusted based on player input. The system's design facilitated the reset and synchronization of game elements through a counter setup based on predefined clock cycles, as detailed in the lab manual.
 
 ## Specifications
-The behaviour of this system took on a straightforward approach. My partner and I
-opted to build the program using a single component. Our initial plan was to use two
-components, one for the game engine and another for VGA output. A diagram of this can be
-found in the appendix. However, when implementing our design, we found that it creates a
-simpler design to integrate the two into a single component.
+The general desired specifications were as follows:
+1.	Static Video-frame:
+For the static portion of the design, it requires that the game field would be green that include white borders.
 
-## Design
-[insert fig 1 here
+2.	Dynamic Elements:
+For the dynamic portion of the design, it requires a few elements for the ball and the players.
+     - Yellow ball that flies on the field between the white borders specified and that reflects off those said borders as well as the players.
+     - Players in Blue and Pink that can move up and down which are being controlled by switches on the board accordingly.
 
+3.	Behavior:
+For the behaviors of the elements integrated in the game, it requires that:
+    - When the ball hits a player or border, it must change trajectory as of plus or minus ninety angular degrees based on the direction of the hit
+    - When the ball passes the gate on the right or left, it will change color to red and dissapear while pass the video-frame. Then it should reappear as yellow once again in the center of the field.
+
+### VGA Specifications:
 Table I. VGA Horizontal Parameters
 | Paramter          | Clock Cycles |
 |-------------------|:------------:|
@@ -68,11 +39,54 @@ Table II. VGA Vertical Parameters
 | Back Porch        | 33           |
 | Active Image Area | 480          |
 
-[insert process diagram here
+All horizontal time periods are specified in multiples of the VGA pixel clock, set at 25 MHz for a 60 Hz refresh rate. Vertical time periods are measured in multiples of VGA lines. These specifications were sourced from the provided lab manual (reference #1).
 
-[insert timing diagrams here
+## Design
+![Block Diagram](Images/P1.jpg)
+
+Figure 1. Block Symbol for Video Graphics Array Adapter 
+
+The entire video game operates on a single .vhd file, as most of the symbol's inputs and outputs are directly interfaced with the FPGA board and monitor. Consequently, only one symbol is utilized, eliminating the need for a block diagram.
+
+![State Diagram 1](Images/p2.jpg)
+
+Figure 2. Pong Game Mechanism State Diagram
+
+This diagram outlines the general mechanics of the Pong game. One pathway depicts ball movement, starting with a yellow ball at the center of the playfield. The ball moves, bounces off borders or players, and changes direction. If the ball passes through a gate, it flashes red, then resets to the center as a yellow ball again. Another pathway illustrates player movement, controlled by switches. Players remain stationary until switches SW1 (for player 1) or SW2 (for player 2) are activated. Switches SW0 and SW3 control vertical movement, moving players upward if active high and downward if active low.
+
+![State Diagram 2](Images/p3.jpg)
+
+Figure 3. Frame Generation State Diagram
+
+This diagram details the frame generation process for displaying the Pong game. It starts with the pixel at the top-left of the screen. The update begins once both Hsync and Vsync are high, progressing through horizontal pixel updates. If horizontal updates are incomplete (Hsync = 1), the state remains unchanged. Once horizontal updates conclude, the Vsync status determines the next step: if Vsync = 0, a new frame begins; if Vsync = 1, the process moves to the next row of pixels.
 
 ## Results
+After successfully rendering the Pong game on the monitor, several screenshots were captured to demonstrate the game's functionality. However, static images cannot fully convey the movement of the ball or the true colors of the game elements. In these images, Player One (on the left side) is represented in blue, while Player Two (on the right) appears in pink. The ball is depicted in yellow.
+![SS 1](Images/p4.jpg)
+
+Figure 4. Initial State of Pong Game
+
+Fig. 4. showcases the initial state of the game and the ball's response after passing through one of the gates. From the center of the field, the ball "flies" towards potential interactions: either towards a border, a player, or back through a gate. These interactions are depicted in subsequent screenshots.
+
+![SS 2](Images/p5.jpg)
+
+Figure 5. Player Contact with Ball
+
+In a moment where the ball approaches Player Two, the ball then rebounds in the opposite direction a illustrated in Fig. 5. The movement of Player Two, not visible here, involved using the FPGA board switch to position the paddle to intercept the ball.
+
+![SS 3](Images/p6.jpg)
+
+Figure 6. Ball Contact with Border
+
+Fig. 6. shows the scenario where the ball approaches a border, highlighting its collision with the border and subsequent directional change. The ball's diagonal movement towards the border, where it rebounds at a 90-degree angle, exemplifies this interaction.
+
+![SS 4](Images/p7.jpg)
+
+Figure 7. Ball Contact with Border
+
+Lastly, the sequence where the ball enters a gate is shown in Fig. 7. Upon entry, the ball briefly turns red and then resets to the center of the field as yellow, mirroring the state shown in Fig. 1.
+
 
 ## Conclusions
-This project was a learning opportunity about the process of creating an image using a VGA connection. In addition, I had to learn how to process the image while still keeping track of and handling user inputs. I was then able to successfully handle the ball/paddle movement and check for the possible boundary conditions. The signals demonstrated that the ball was moving in the directions we anticipated. The output from the game process was provided to the VGA process to update RGB signals accordingly. Simulations demonstrated that the HSync and VSync signals produced the correct output. I  observed the appropriate RGB signals being accompanied by the HSync and VSync signals. Overall, the project was completed successfully.
+
+The project entailed designing a simple Pong game using VHDL code and an FPGA board, incorporating a VGA driver to manage frame generation and game mechanics. Displayed on monitors, the game utilized the FPGA board to control paddle movements for each player. This project demonstrated the capability of programming pixel behavior on displays, a fundamental concept in contemporary digital applications. The implementation of VGA through the Xilinx FPGA provided a practical learning experience in using high-performance signal generators and developing custom logic for FPGA implementation. The project met all specifications, and proper VHDL coding practices were employed to achieve the desired outcomes.
