@@ -91,3 +91,6 @@ Lastly, the sequence where the ball enters a gate is shown in Fig. 7. Upon entry
 ## Conclusions
 
 The project entailed designing a simple Pong game using VHDL code and an FPGA board, incorporating a VGA driver to manage frame generation and game mechanics. Displayed on monitors, the game utilized the FPGA board to control paddle movements for each player. This project demonstrated the capability of programming pixel behavior on displays, a fundamental concept in contemporary digital applications. The implementation of VGA through the Xilinx FPGA provided a practical learning experience in using high-performance signal generators and developing custom logic for FPGA implementation. The project met all specifications, and proper VHDL coding practices were employed to achieve the desired outcomes.
+
+## **References**
+[1] [SVGP-VGA Reference Manual](https://www.ecb.torontomu.ca/~lkirisch/ele758/labs/SimpleVideoGame[11-11-11].pdf)
